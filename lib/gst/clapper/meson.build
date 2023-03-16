@@ -28,6 +28,14 @@ gstclapper_headers = [
   'gstclapper-mpris.h',
   'gstclapper-gtk4-plugin.h',
 ]
+
+gstclapper_gtk4_headers = [
+  'gtk4/gstclapperglsink.h',
+  'gtk4/gstclapperglutils.h',
+  'gtk4/gstgtkutils.h',
+  'gtk4/gtkclapperglwidget.h',
+]
+
 gstclapper_defines = [
   '-DHAVE_CONFIG_H',
   '-DBUILDING_GST_CLAPPER',
@@ -99,9 +107,14 @@ gstclapper = library('gstclapper-' + api_version,
   include_directories: [configinc, libsinc],
   version: libversion,
   install: true,
-  install_dir: pkglibdir,
+  install_dir: libdir,
   dependencies: gstclapper_deps,
 )
+install_headers(gstclapper_headers, subdir: 'gst/clapper')
+install_headers(gstclapper_gtk4_headers, subdir: 'gst/clapper/gtk4')
+
+pkg = import('pkgconfig')
+pkg.generate(gstclapper, install_dir: libdir + '/pkgconfig')
 
 clapper_gir = gnome.generate_gir(gstclapper,
   sources: gstclapper_sources + gstclapper_headers,

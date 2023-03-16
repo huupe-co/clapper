@@ -48,9 +48,6 @@ else
   export_define = 'extern'
 endif
 
-# Passing this through the command line would be too messy
-cdata.set('GST_API_EXPORT', export_define)
-
 # Disable strict aliasing
 if cc.has_argument('-fno-strict-aliasing')
   add_project_arguments('-fno-strict-aliasing', language: 'c')
@@ -256,7 +253,7 @@ cdata.set('DISABLE_ORC', 1)
 cdata.set('GST_ENABLE_EXTRA_CHECKS', get_option('devel-checks'))
 
 configinc = include_directories('.')
-libsinc = include_directories('gst')
+libsinc = include_directories('gst/clapper')
 
 gir = find_program('g-ir-scanner', required: false)
 gir_init_section = ['--add-init-section=extern void gst_init(gint*,gchar**);' + \
